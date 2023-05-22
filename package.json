@@ -10,6 +10,8 @@
   },
   "scripts": {
     "app": "yarn workspace app",
-    "start": "yarn app start"
+    "lib": "yarn workspace lib",
+    "start": "yarn app start",
+    "test": "yarn lib test"
   }
 }
