@@ -1,31 +1,98 @@
-import React from 'react'
-import { DataQuery } from '@dhis2/app-runtime'
-import i18n from '@dhis2/d2-i18n'
-import classes from './App.module.css'
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  ButtonStrip,
+  DropdownButton,
+  FlyoutMenu,
+  MenuItem,
+} from "@dhis2/ui";
+import classes from "./App.module.css";
+import CustomBox from "./CustomBox";
+import OrganizationTreeModal from "./OrganizationTreeModal";
 
-const query = {
-    me: {
-        resource: 'me',
-    },
-}
+const MyApp = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
 
-const MyApp = () => (
-    <div className={classes.container}>
-        <DataQuery query={query}>
-            {({ error, loading, data }) => {
-                if (error) return <span>ERROR</span>
-                if (loading) return <span>...</span>
-                return (
-                    <>
-                        <h1>
-                            {i18n.t('Hello {{name}}', { name: data.me.name })}
-                        </h1>
-                        <h3>{i18n.t('Welcome to DHIS2!')}</h3>
-                    </>
-                )
-            }}
-        </DataQuery>
+  return (
+    <div style={{ position: "relative", height: "100%", width: "100%" }}>
+      <div>
+        <CustomBox
+          name="Filter Selection:"
+          component={"Organization unit"}
+          onClick={handleClick}
+        />
+      </div>
+      <div
+        style={{
+          border: "1px solid #c4c9cc",
+          padding: 8,
+          paddingTop: 2,
+          width: "100%",
+        }}
+      >
+        <ButtonStrip>
+          <Button name="Primary button" primary value="default">
+            Update
+          </Button>
+          <Button>Options</Button>
+          <Button>Download</Button>
+
+          <DropdownButton
+            end
+            component={
+              <FlyoutMenu>
+                <MenuItem label="Line Graph" />
+                <MenuItem label="Bar Chart" />
+                <MenuItem label="Stacked Bar Chart" />
+              </FlyoutMenu>
+            }
+            name="buttonName"
+            value="buttonValue"
+          >
+            Visualization Type
+          </DropdownButton>
+        </ButtonStrip>
+      </div>
+      <div
+        style={{
+          height: "50%",
+          width: "400px",
+          margin: "auto auto",
+        }}
+      >
+        <div style={{ backgroundColor: "#ffff" }}>
+          <h3>Getting Started: </h3>
+          <ul>
+            <li>Select the dimensions above</li>
+            <li>Select the type of visualization</li>
+            <li>Click the update button to generate visualization</li>
+          </ul>
+        </div>
+        <div style={{ backgroundColor: "#ffff", display: "block" }}>
+          <h3>Your recent visualization: </h3>
+          <ul>
+            <li>ANC Bar Graph</li>
+          </ul>
+        </div>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          right: "50%",
+          bottom: "50%",
+          background: "#0000",
+        }}
+      >
+        {/* {isOpen && <OrganizationTreeModal setIsOpen={setIsOpen} />} */}
+      </div>
     </div>
-)
+  );
+};
 
-export default MyApp
+export default MyApp;
