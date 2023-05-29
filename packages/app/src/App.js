@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ButtonStrip, DropdownButton, FlyoutMenu, MenuItem } from "@dhis2/ui";
+import { Button, ButtonStrip, DropdownButton, FlyoutMenu, MenuItem} from "@dhis2/ui";
 import classes from './App.module.css'
 
 // const query = {
@@ -16,21 +16,20 @@ const MyApp = () => (
         padding: 8,
         paddingTop: 130,
         width: '100%'
-    }}
->
-    <ButtonStrip>
-    <Button name="Primary button"  primary value="default">
-    Update
-    </Button>
-        <Button
+            }}
         >
+    <ButtonStrip>
+        <Button name="Primary button"  primary value="default">
+            Update
+        </Button>
+        <Button>
             Options
         </Button>
         <Button>
             Download
         </Button>
         
-        <DropdownButton
+        <DropdownButton end
             component={<FlyoutMenu><MenuItem label="Line Graph" /><MenuItem label="Bar Chart" /><MenuItem label="Stacked Bar Chart" /></FlyoutMenu>}
             name="buttonName"
             value="buttonValue"
@@ -40,8 +39,23 @@ const MyApp = () => (
     </ButtonStrip>
 
         </div>
+           <div>
+           </div>
     </div>
 
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default MyApp
