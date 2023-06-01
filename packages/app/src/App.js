@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Box,
@@ -80,21 +79,11 @@ const MyApp = () => {
           </ul>
         </div>
       </div>
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          right: "50%",
-          bottom: "50%",
-          background: "#0000",
-        }}
-      >
-        {/* {isOpen && <OrganizationTreeModal setIsOpen={setIsOpen} />} */}
-      </div>
+      {isOpen && (
+        <OrganizationTreeModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      )}
     </div>
   );
 };
 
 export default MyApp;
-
