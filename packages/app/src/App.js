@@ -13,17 +13,24 @@ import OrganizationTreeModal from "./OrganizationTreeModal";
 
 const MyApp = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [component, setComponent] = useState('');
   const handleClick = () => {
     setIsOpen(!isOpen);
+    setComponent()
   };
 
   return (
     <div style={{ position: "relative", height: "100%", width: "100%" }}>
-      <div>
+      <div style={{display: 'flex'}}>
         <CustomBox
           name="Filter Selection:"
           component={"Organization unit"}
           onClick={handleClick}
+        />
+         <CustomBox
+          name="Write Query:"
+          component={"Select Query"}
+          onClick={()=>alert('You just clicked')}
         />
       </div>
       <div
