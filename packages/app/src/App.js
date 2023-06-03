@@ -46,10 +46,15 @@ const MyApp = () => {
             Update
           </Button>
           <Button>Options</Button>
-          <Button>Download</Button>
+          <Button
+                    disabled
+
+                    name="Disabled primary button"
+
+                    value
+                    ="default">Download</Button>
 
           <DropdownButton
-            end
             component={
               <FlyoutMenu>
                 <MenuItem label="Line Graph" />
@@ -74,7 +79,8 @@ const MyApp = () => {
         <div style={{ backgroundColor: "#ffff" }}>
           <h3>Getting Started: </h3>
           <ul>
-            <li>Select the dimensions above</li>
+            <li>Select the dimensions </li>
+            <li>Fill in your query in the form</li>
             <li>Select the type of visualization</li>
             <li>Click the update button to generate visualization</li>
           </ul>
