@@ -6,20 +6,48 @@ import {
   DropdownButton,
   FlyoutMenu,
   MenuItem,
+  Modal,
+  ModalActions,
+  ModalContent,
+  ModalTitle,
 } from "@dhis2/ui";
 import classes from "./App.module.css";
 import CustomBox from "./CustomBox";
 import OrganizationTreeModal from "./OrganizationTreeModal";
+import PeriodModal from "./PeriodModal";
+import DataElementModal from "./DataElementModal";
+import SqlQueryModal from "./SqlQueryModal";
 
 const MyApp = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenPeriod, setIsOpenPeriod] = useState(false);
+  const [isOpenDataElement, setIsOpenDataElement] = useState(false);
+  const [isOpenSqlQuery, setIsOpenSqlQuery] = useState(false);
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
   return (
     <div style={{ position: "relative", height: "100%", width: "100%" }}>
-      <div>
+      <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
+        <CustomBox
+          name="Write Query:"
+          component={"sql view query"}
+          onClick={() => setIsOpenSqlQuery(true)}
+        />
+        <CustomBox
+          name="Data Selection:"
+          component={"Data Element"}
+          onClick={() => {
+            setIsOpenDataElement(true);
+          }}
+        />
+        <CustomBox
+          name="Category Selection:"
+          component={"Period"}
+          onClick={() => setIsOpenPeriod(true)}
+        />
+
         <CustomBox
           name="Filter Selection:"
           component={"Organization unit"}
@@ -40,7 +68,6 @@ const MyApp = () => {
           </Button>
           <Button>Options</Button>
           <Button>Download</Button>
-
           <DropdownButton
             end
             component={
@@ -79,8 +106,16 @@ const MyApp = () => {
           </ul>
         </div>
       </div>
-      {isOpen && (
+      {isOpen ? (
         <OrganizationTreeModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      ) : isOpenPeriod ? (
+        <PeriodModal setIsOpenPeriod={setIsOpenPeriod} />
+      ) : isOpenDataElement ? (
+        <DataElementModal setIsOpenDataElement={setIsOpenDataElement} />
+      ) : (
+        isOpenSqlQuery && (
+          <SqlQueryModal setIsOpenSqlQuery={setIsOpenSqlQuery} />
+        )
       )}
     </div>
   );
