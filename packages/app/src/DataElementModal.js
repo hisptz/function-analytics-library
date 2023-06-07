@@ -7,18 +7,21 @@ import {
   ModalTitle,
   Transfer,
 } from "@dhis2/ui";
-import React from "react";
+import React, { useState } from "react";
 
 const DataElementModal = ({ setIsOpenDataElement }) => {
+  const [selectedi, setSelectedi] = useState();
   return (
     <div>
       <Modal onClose={() => setIsOpenDataElement(false)}>
         <ModalTitle>Data Element Selection</ModalTitle>
         <ModalContent>
           <Transfer
-            filterable
+            selected={selectedi}
+            filterable="filter with placeholder"
+            filterPlaceholder="search"
             height="400px"
-            onChange={(selected) => {}}
+            onChange={({ selected }) => setSelectedi(selected)}
             roots={["fbfJHSPpUQD"]}
             options={[
               {
