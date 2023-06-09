@@ -53,6 +53,31 @@ const MyApp = () => {
           component={"Organization unit"}
           onClick={handleClick}
         />
+        <div
+          style={{
+            // border: "1px solid #c4c9cc",
+            // padding: 8,
+            // paddingTop: 2,
+            // width: "100%",
+            marginLeft: "4.5cm",
+            marginTop: "0.5cm",
+          }}
+        >
+          <DropdownButton
+            end
+            component={
+              <FlyoutMenu>
+                <MenuItem label="Line Graph" />
+                <MenuItem label="Bar Chart" />
+                <MenuItem label="Stacked Bar Chart" />
+              </FlyoutMenu>
+            }
+            name="buttonName"
+            value="buttonValue"
+          >
+            Visualization Type
+          </DropdownButton>
+        </div>
       </div>
       <div
         style={{
@@ -68,20 +93,6 @@ const MyApp = () => {
           </Button>
           <Button>Options</Button>
           <Button>Download</Button>
-          <DropdownButton
-            end
-            component={
-              <FlyoutMenu>
-                <MenuItem label="Line Graph" />
-                <MenuItem label="Bar Chart" />
-                <MenuItem label="Stacked Bar Chart" />
-              </FlyoutMenu>
-            }
-            name="buttonName"
-            value="buttonValue"
-          >
-            Visualization Type
-          </DropdownButton>
         </ButtonStrip>
       </div>
       <div
