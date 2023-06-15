@@ -17,8 +17,10 @@ import OrganizationTreeModal from "./OrganizationTreeModal";
 import PeriodModal from "./PeriodModal";
 import DataElementModal from "./DataElementModal";
 import SqlQueryModal from "./SqlQueryModal";
+// import Chart from "./ChartComponent";
+// import ChartComponent from "./ChartComponent";
 
-const MyApp = () => {
+function MyApp() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPeriod, setIsOpenPeriod] = useState(false);
   const [isOpenDataElement, setIsOpenDataElement] = useState(false);
@@ -128,8 +130,11 @@ const MyApp = () => {
           <SqlQueryModal setIsOpenSqlQuery={setIsOpenSqlQuery} />
         )
       )}
+
+      {/* The chart to appear here */}
+      {/* <ChartComponent /> */}
     </div>
   );
-};
+}
 
 export default MyApp;
