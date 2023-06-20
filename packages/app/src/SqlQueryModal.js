@@ -5,6 +5,8 @@ import {
   ModalActions,
   ModalContent,
   ModalTitle,
+  SingleSelectField,
+  SingleSelectOption,
 } from "@dhis2/ui";
 import React, { useState } from "react";
 
@@ -70,36 +72,34 @@ const SqlQueryModal = ({ setIsOpenSqlQuery }) => {
                 }
               />
 
-              <input
-                type="text"
-                style={inputStyle}
-                placeholder="Cache strategy(*)"
-                value={formData.Cachestrategy}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    Cachestrategy: e.target.value,
-                  })
-                }
-              />
+              <SingleSelectField
+                placeholder="Cache strategy"
+                onChange={() => {}}
+              >
+                <SingleSelectOption label="No cache" value="No cache" />
+                <SingleSelectOption
+                  label="cache for 15 minutes"
+                  value="cache for 15 minutes"
+                />
+                <SingleSelectOption
+                  label="respect system setting"
+                  value="respect system setting "
+                />
+              </SingleSelectField>
+
+              <SingleSelectField placeholder="Sql type" onChange={() => {}}>
+                <SingleSelectOption label="View" value="view" />
+                <SingleSelectOption
+                  label="Materialized view"
+                  value="materialized view"
+                />
+                <SingleSelectOption label="SQL" value="sql" />
+              </SingleSelectField>
 
               <input
                 type="text"
                 style={inputStyle}
-                placeholder="SQL type(*)"
-                value={formData.SQLtype}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    SQLtype: e.target.value,
-                  })
-                }
-              />
-
-              <textarea
-                type="text"
-                style={inputStyle}
-                placeholder="SQL query"
+                placeholder="Sql query(*)"
                 value={formData.SQLquery}
                 onChange={(e) =>
                   setFormData({
@@ -113,11 +113,11 @@ const SqlQueryModal = ({ setIsOpenSqlQuery }) => {
         </ModalContent>
         <ModalActions>
           <ButtonStrip>
-            <Button onClick={onclick} secondary>
+            <Button primary onClick={onclick} secondary>
               {" "}
               save{" "}
             </Button>
-            <Button primary onClick={onclick} secondary>
+            <Button onClick={onclick} secondary>
               {" "}
               Cancel
             </Button>
