@@ -34,7 +34,7 @@ function MyApp() {
       <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
         <CustomBox
           name="Write Query:"
-          component={"sql view query"}
+          component={"Sql View Query"}
           onClick={() => setIsOpenSqlQuery(true)}
         />
         <CustomBox
