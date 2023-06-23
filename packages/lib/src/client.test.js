@@ -14,11 +14,13 @@ const variables = {
 }
 
 describe("Client test", function () {
-    it("Initializes successfully", function () {
+    it("Initializes successfully", async function () {
         const fn = new SQLView(exampleCredentials);
         fn.setId('WRee7t9IkuZ');
         fn.setVariables(variables);
-        console.log(fn.get());
+        const result = await fn.get();
+        //console.log(fn.get());
+        console.log(result);
         expect(true).toBe(true);
     })
 })
