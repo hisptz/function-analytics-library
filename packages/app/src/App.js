@@ -24,7 +24,6 @@ function MyApp() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPeriod, setIsOpenPeriod] = useState(false);
   const [isOpenDataElement, setIsOpenDataElement] = useState(false);
-  const [isOpenSqlQuery, setIsOpenSqlQuery] = useState(false);
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
@@ -32,37 +31,33 @@ function MyApp() {
   return (
     <div style={{ position: "relative", height: "100%", width: "100%" }}>
       <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-        <CustomBox
-          name="Write Query:"
-          component={"Sql View Query"}
-          onClick={() => setIsOpenSqlQuery(true)}
-        />
-        <CustomBox
-          name="Data Selection:"
-          component={"Data Element"}
-          onClick={() => {
-            setIsOpenDataElement(true);
-          }}
-        />
-        <CustomBox
-          name="Category Selection:"
-          component={"Period"}
-          onClick={() => setIsOpenPeriod(true)}
-        />
+        <div style={{ display: "flex", flex: 1 }}>
+          <CustomBox
+            name="Data Selection:"
+            component={"Data Element"}
+            onClick={() => setIsOpenDataElement(true)}
+          />
+          <CustomBox
+            name="Category Selection:"
+            component={"Period"}
+            onClick={() => setIsOpenPeriod(true)}
+          />
 
-        <CustomBox
-          name="Filter Selection:"
-          component={"Organization unit"}
-          onClick={handleClick}
-        />
+          <CustomBox
+            name="Filter Selection:"
+            component={"Organization unit"}
+            onClick={handleClick}
+          />
+        </div>
         <div
           style={{
             // border: "1px solid #c4c9cc",
-            // padding: 8,
+            marginTop: "auto",
+            padding: 8,
             // paddingTop: 2,
             // width: "100%",
-            marginLeft: "4.5cm",
-            marginTop: "0.5cm",
+            // marginLeft: "4.5cm",
+            // marginTop: "0.5cm",
           }}
         >
           <DropdownButton
@@ -93,8 +88,22 @@ function MyApp() {
           <Button name="Primary button" primary value="default">
             Update
           </Button>
-          <Button>Options</Button>
-          <Button>Download</Button>
+
+          <DropdownButton
+            component={
+              <FlyoutMenu>
+                <MenuItem label="Open" />
+                <MenuItem label="Download" />
+                <MenuItem label="Save" />
+                <MenuItem label="Save as" />
+                <MenuItem label="Rename" />
+              </FlyoutMenu>
+            }
+            name="buttonName"
+            value="buttonValue"
+          >
+            File
+          </DropdownButton>
         </ButtonStrip>
       </div>
       <div
@@ -118,6 +127,12 @@ function MyApp() {
             <li>ANC Bar Graph</li>
           </ul>
         </div>
+        <div style={{ backgroundColor: "#ffff", display: "block" }}>
+          <h3>
+            Welcome to the Built-In- Functional Analytics Library where You can
+            Build in and Visualize it{" "}
+          </h3>
+        </div>
       </div>
       {isOpen ? (
         <OrganizationTreeModal isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -125,11 +140,7 @@ function MyApp() {
         <PeriodModal setIsOpenPeriod={setIsOpenPeriod} />
       ) : isOpenDataElement ? (
         <DataElementModal setIsOpenDataElement={setIsOpenDataElement} />
-      ) : (
-        isOpenSqlQuery && (
-          <SqlQueryModal setIsOpenSqlQuery={setIsOpenSqlQuery} />
-        )
-      )}
+      ) : null}
 
       {/* The chart to appear here */}
       {/* <ChartComponent /> */}
