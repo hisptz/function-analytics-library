@@ -32,7 +32,7 @@ const DataElementModal = ({ setIsOpenDataElement }) => {
         </ModalContent>
         <ModalActions>
           <ButtonStrip end>
-            <Button onClick={() => setIsOpenDataElement(false)} secodary>
+            <Button onClick={() => setIsOpenDataElement(false)} secondary>
               Hide
             </Button>
             <Button primary onClick={onclick} secodary>
