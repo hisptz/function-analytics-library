@@ -1,17 +1,29 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "react",
+      "react-dom"
+    ]
+  },
   "devDependencies": {
     "lerna": "^6.6.2"
-
   },
   "scripts": {
     "app": "yarn workspace app",
     "lib": "yarn workspace lib",
     "start": "yarn app start",
-    "test": "yarn lib test"
+    "test": "yarn lib test",
+    "build:lib": "yarn lib build"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "axios": "^1.4.0"
   }
 }

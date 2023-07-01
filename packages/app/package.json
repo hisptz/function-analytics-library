@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "d2-app-scripts build",
-    "start": "dotenv -- cross-var d2-app-scripts start --proxy %DHIS2_PROXY%",
+    "start": "dotenv -- cross-var d2-app-scripts start --proxy %REACT_APP_DHIS2_PROXY%",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy"
   },
@@ -21,8 +21,9 @@
     "@dhis2/ui": "^8.13.4",
     "@hisptz/dhis2-analytics": "^1.0.49",
     "@hisptz/dhis2-ui": "^1.0.49",
+    "@tanstack/react-query": "^4.29.19",
     "async-es": "^3.2.4",
-    "react-hook-form": "^7.45.0",
-    "react-router-dom": "^6.14.0"
+    "lib": "*",
+    "react-hook-form": "^7.45.0"
   }
 }
