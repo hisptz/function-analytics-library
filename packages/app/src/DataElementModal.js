@@ -62,6 +62,7 @@ const DataElementModal = ({ hide, onClose, onUpdate }) => {
         <ModalActions>
           <ButtonStrip end>
             <Button onClick={onClose} secodary>
+            <Button onClick={() => setIsOpenDataElement(false)} secondary>
               Hide
             </Button>
             

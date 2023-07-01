@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
+import {
   Box,
   Button,
   ButtonStrip,
   DropdownButton,
   FlyoutMenu,
   MenuItem,
-  Modal,
-  ModalActions,
-  ModalContent,
-  ModalTitle,
 } from "@dhis2/ui";
 import classes from "./App.module.css";
 import CustomBox from "./CustomBox";
@@ -22,7 +25,9 @@ import { QueryClientProvider, useQuery, QueryClient } from "@tanstack/react-quer
 //import { SQLView, Fn } from '../../lib/src/client';
 // import Chart from "./ChartComponent";
 // import ChartComponent from "./ChartComponent";
-
+import Recents from "./components/Recents";
+import { BarGraph, StackedBar, LineGraph } from "./components/graphs";
+import Header from "./components/Header";
 
 async function get({ queryKey }) {
   console.log({queryKey})
@@ -73,82 +78,32 @@ function Home() {
 
 
   return (
-    <div style={{ position: "relative", height: "100%", width: "100%" }}>
-      <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-        <div style={{ display: "flex", flex: 1 }}>
-          <CustomBox
-            name="Data Selection:"
-            component={"Data Element"}
-            onClick={() => setIsOpenDataElement(true)}
-          />
-          <CustomBox
-            name="Category Selection:"
-            component={"Period"}
-            onClick={() => setIsOpenPeriod(true)}
-          />
-
-          <CustomBox
-            name="Filter Selection:"
-            component={"Organization unit"}
-            onClick={handleClick}
-          />
+    <BrowserRouter>
+      <div style={{ position: "relative", height: "100%", width: "100%" }}>
+        <Header
+          handleClick={handleClick}
+          setIsOpenPeriod={setIsOpenPeriod}
+          setIsOpen={setIsOpen}
+          setIsOpenDataElement={setIsOpenDataElement}
+        />
+        <div>
+          <Routes>
+            <Route path="" element={<Recents />} />
+            <Route path="/graph/bar" element={<BarGraph />} />
+            <Route path="/graph/line" element={<LineGraph />} />
+            <Route path="/graph/multiple" element={<StackedBar />} />
+          </Routes>
         </div>
-        <div
-          style={{
-            // border: "1px solid #c4c9cc",
-            marginTop: "auto",
-            padding: 8,
-            // paddingTop: 2,
-            // width: "100%",
-            // marginLeft: "4.5cm",
-            // marginTop: "0.5cm",
-          }}
-        >
-          <DropdownButton
-            end
-            component={
-              <FlyoutMenu>
-                <MenuItem label="Line Graph" />
-                <MenuItem label="Bar Chart" />
-                <MenuItem label="Stacked Bar Chart" />
-              </FlyoutMenu>
-            }
-            name="buttonName"
-            value="buttonValue"
-          >
-            Visualization Type
-          </DropdownButton>
-        </div>
-      </div>
-      <div
-        style={{
-          border: "1px solid #c4c9cc",
-          padding: 8,
-          paddingTop: 2,
-          width: "100%",
-        }}
-      >
-        <ButtonStrip>
-          <Button name="Primary button" primary value="default">
-            Update
-          </Button>
+        {isOpen ? (
+          <OrganizationTreeModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        ) : isOpenPeriod ? (
+          <PeriodModal setIsOpenPeriod={setIsOpenPeriod} />
+        ) : isOpenDataElement ? (
+          <DataElementModal setIsOpenDataElement={setIsOpenDataElement} />
+        ) : null}
 
-          <DropdownButton
-            component={
-              <FlyoutMenu>
-                <MenuItem label="Open" />
-                <MenuItem label="Download" />
-                <MenuItem label="Save" />
-                <MenuItem label="Save as" />
-                <MenuItem label="Rename" />
-              </FlyoutMenu>
-            }
-            name="buttonName"
-            value="buttonValue"
-          >
-            File
-          </DropdownButton>
-        </ButtonStrip>
+        {/* The chart to appear here */}
+        {/* <ChartComponent /> */}
       </div>
       <div
         style={{
@@ -202,6 +157,7 @@ function Home() {
       {/* The chart to appear here */}
       {/* <ChartComponent /> */}
     </div>
+    </BrowserRouter>
   );
 }
 
