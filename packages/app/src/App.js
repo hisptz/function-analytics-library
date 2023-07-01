@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -16,17 +16,61 @@ import CustomBox from "./CustomBox";
 import OrganizationTreeModal from "./OrganizationTreeModal";
 import PeriodModal from "./PeriodModal";
 import DataElementModal from "./DataElementModal";
-import SqlQueryModal from "./SqlQueryModal";
+import { SQLView } from "lib";
+import { QueryClientProvider, useQuery, QueryClient } from "@tanstack/react-query"
+//import SqlQueryModal from "./SqlQueryModal";
+//import { SQLView, Fn } from '../../lib/src/client';
 // import Chart from "./ChartComponent";
 // import ChartComponent from "./ChartComponent";
 
-function MyApp() {
+
+async function get({ queryKey }) {
+  console.log({queryKey})
+
+  const sqlViewObject = queryKey[0];
+  if (sqlViewObject) {
+    const sqlView = new SQLView({
+      baseURL: process.env.REACT_APP_DHIS2_PROXY,
+      username: process.env.REACT_APP_DHIS2_USERNAME,
+      password: process.env.REACT_APP_DHIS2_PASSWORD
+    }).setId(sqlViewObject.id);
+
+    return await sqlView.getData() ?? null;
+
+  }
+  else {
+    return null;
+  }
+}
+
+function Home() {
+
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPeriod, setIsOpenPeriod] = useState(false);
   const [isOpenDataElement, setIsOpenDataElement] = useState(false);
+  const [sqlViewSelected, setSqlview] = useState();
+
+  const { data, isLoading, error } = useQuery([sqlViewSelected], get, {
+    enabled: !!sqlViewSelected,
+  });
+
+
+  const onUpdate = (selectedSqlView) => {
+    console.log(selectedSqlView)
+    const sqlView = selectedSqlView[0];
+    setSqlview(sqlView);
+  }
+
+
+  console.log({ data })
+  console.log({ isLoading })
+  console.log({ error })
+
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
 
   return (
     <div style={{ position: "relative", height: "100%", width: "100%" }}>
@@ -113,39 +157,64 @@ function MyApp() {
           margin: "auto auto",
         }}
       >
-        <div style={{ backgroundColor: "#ffff" }}>
-          <h3>Getting Started: </h3>
-          <ul>
-            <li>Select the dimensions above</li>
-            <li>Select the type of visualization</li>
-            <li>Click the update button to generate visualization</li>
-          </ul>
-        </div>
-        <div style={{ backgroundColor: "#ffff", display: "block" }}>
-          <h3>Your recent visualization: </h3>
-          <ul>
-            <li>ANC Bar Graph</li>
-          </ul>
-        </div>
-        <div style={{ backgroundColor: "#ffff", display: "block" }}>
-          <h3>
-            Welcome to the Built-In- Functional Analytics Library where You can
-            Build in and Visualize it{" "}
-          </h3>
-        </div>
+        {
+          !sqlViewSelected && (<>
+            <div style={{ backgroundColor: "#ffff" }}>
+              <h3>Getting Started: </h3>
+              <ul>
+                <li>Select the dimensions above</li>
+                <li>Select the type of visualization</li>
+                <li>Click the update button to generate visualization</li>
+              </ul>
+            </div>
+            <div style={{ backgroundColor: "#ffff", display: "block" }}>
+              <h3>Your recent visualization: </h3>
+              <ul>
+                <li>ANC Bar Graph</li>
+              </ul>
+            </div>
+            <div style={{ backgroundColor: "#ffff", display: "block" }}>
+              <h3>
+                Welcome {" "}
+              </h3>
+            </div>
+          </>)
+        }
+        {
+          sqlViewSelected && isLoading ? (
+            <div>Loading...</div>
+          ) : null
+        }
+        {
+          data && (
+            <div>{JSON.stringify(data)}</div>
+          )
+        }
       </div>
       {isOpen ? (
         <OrganizationTreeModal isOpen={isOpen} setIsOpen={setIsOpen} />
       ) : isOpenPeriod ? (
         <PeriodModal setIsOpenPeriod={setIsOpenPeriod} />
       ) : isOpenDataElement ? (
-        <DataElementModal setIsOpenDataElement={setIsOpenDataElement} />
+        <DataElementModal onUpdate={onUpdate} hide={!isOpenDataElement} onClose={() => setIsOpenDataElement(false)} />
       ) : null}
 
       {/* The chart to appear here */}
       {/* <ChartComponent /> */}
     </div>
   );
+}
+
+const queryClient = new QueryClient()
+
+function MyApp() {
+
+  return (
+    <QueryClientProvider client={queryClient} >
+      <Home />
+    </QueryClientProvider>
+  )
+
 }
 
 export default MyApp;

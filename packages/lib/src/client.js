@@ -57,6 +57,40 @@ export class SQLView {
 
 
     }
+
+    async getData() {
+        if (!this.id) {
+            throw new Error("id is not set")
+        }
+        try {
+            const params = Object.entries(this.variables).map(([key, value]) => {
+                return `var=${key}:${value}`
+            }).join('&')
+            const url = `sqlViews/${this.id}/data?${params}`;
+
+            const {data} = await this.client.get(url);
+            
+            return data;
+        } catch (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                console.error('Request error:', error.response.data);
+                console.error('Status code:', error.response.status);
+                console.error('Headers:', error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.error('No response received:', error.request);
+            } else {
+                // Other errors occurred during the request setup or processing
+                console.error('Error:', error.message);
+            }
+            throw new Error('Error occurred');
+        }
+
+
+    }
+
+
 }
 
 export class Fn {
